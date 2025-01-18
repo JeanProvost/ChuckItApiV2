@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35527.113 d17.12
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChuckItApiV2", "ChuckItApiV2\ChuckItApiV2.csproj", "{2CE0EA1E-D762-471F-94A8-1B0F13A2D2CC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChuckIt.Core", "ChuckIt.Core\ChuckIt.Core.csproj", "{0807F3F6-0471-4F80-89F9-6998148459A9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChuckIt.Infrastructure", "ChuckIt.Infrastructure\ChuckIt.Infrastructure.csproj", "{9FD59DD3-D49C-45CA-B5B6-349104B1F860}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2CE0EA1E-D762-471F-94A8-1B0F13A2D2CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2CE0EA1E-D762-471F-94A8-1B0F13A2D2CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2CE0EA1E-D762-471F-94A8-1B0F13A2D2CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2CE0EA1E-D762-471F-94A8-1B0F13A2D2CC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0807F3F6-0471-4F80-89F9-6998148459A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0807F3F6-0471-4F80-89F9-6998148459A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0807F3F6-0471-4F80-89F9-6998148459A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0807F3F6-0471-4F80-89F9-6998148459A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9FD59DD3-D49C-45CA-B5B6-349104B1F860}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9FD59DD3-D49C-45CA-B5B6-349104B1F860}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9FD59DD3-D49C-45CA-B5B6-349104B1F860}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9FD59DD3-D49C-45CA-B5B6-349104B1F860}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
