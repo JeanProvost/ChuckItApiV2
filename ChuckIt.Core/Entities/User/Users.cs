@@ -1,10 +1,5 @@
 ﻿using ChuckItApiV2.Core.Entities.Base;
 using ChuckItApiV2.Core.Entities.Listing;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ChuckItApiV2.Core.Entities.User
 {
