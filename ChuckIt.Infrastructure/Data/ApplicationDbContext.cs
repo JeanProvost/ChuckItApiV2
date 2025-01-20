@@ -4,12 +4,6 @@ using ChuckItApiV2.Core.Entities.Listing;
 using ChuckItApiV2.Core.Entities.Message;
 using ChuckItApiV2.Core.Entities.User;
 using Microsoft.EntityFrameworkCore;
-//using ChuckItApiV2.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ChuckItApiV2.Infrastructure.Data
 {

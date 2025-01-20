@@ -1,15 +1,10 @@
 using ChuckItApiV2.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using dotenv.net;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using Amazon.S3;
-using Amazon;
 using Amazon.Extensions.NETCore.Setup;
 using Microsoft.OpenApi.Models;
-using System;
-using Amazon.Runtime.Internal.Transform;
 
 
 DotEnv.Load();

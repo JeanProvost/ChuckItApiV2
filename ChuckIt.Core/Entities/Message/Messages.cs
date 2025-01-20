@@ -1,12 +1,7 @@
 ﻿using ChuckItApiV2.Core.Entities.Base;
 using ChuckItApiV2.Core.Entities.Listing;
 using ChuckItApiV2.Core.Entities.User;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ChuckItApiV2.Core.Entities.Message
 {
