@@ -1,4 +1,4 @@
-using ChuckIt.Infrastructure.Data;
+using ChuckItApiV2.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using dotenv.net;

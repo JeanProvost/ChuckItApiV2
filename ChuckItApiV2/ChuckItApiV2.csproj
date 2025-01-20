@@ -25,6 +25,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ChuckIt.Infrastructure\ChuckIt.Infrastructure.csproj" />
+    <ProjectReference Include="..\ChuckIt.Core\ChuckIt.Core.csproj" />
   </ItemGroup>
 
 </Project>

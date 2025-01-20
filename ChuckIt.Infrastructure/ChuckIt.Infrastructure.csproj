@@ -10,4 +10,12 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Data\Migrations\" />
+  </ItemGroup>
+
+ <ItemGroup>
+	 <ProjectReference Include="..\ChuckIt.Core\ChuckIt.Core.csproj" />
+ </ItemGroup>
+
 </Project>

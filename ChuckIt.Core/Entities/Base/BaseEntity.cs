@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ChuckIt.Core.Entities.Base
+namespace ChuckItApiV2.Core.Entities.Base
 {
     public class BaseEntity<TId>
     {

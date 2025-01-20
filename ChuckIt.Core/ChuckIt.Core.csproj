@@ -5,9 +5,4 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\ChuckItApiV2\ChuckItApiV2.csproj" />
-  </ItemGroup>
-
 </Project>
