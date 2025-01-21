@@ -3,10 +3,10 @@ using ChuckItApiV2.Core.Entities.Listing;
 
 namespace ChuckItApiV2.Core.Entities.User
 {
-    public class Users : BaseEntity<Guid>
+    public class User : BaseEntity<Guid>
     {
         public string FirstName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;
-        public ICollection<Listings> Listings { get; set; } = new List<Listings>();
+        public ICollection<Listing.Listing> Listings { get; set; } = new List<Listing.Listing>();
     }
 }
