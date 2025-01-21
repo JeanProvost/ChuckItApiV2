@@ -5,16 +5,16 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ChuckItApiV2.Core.Entities.Message
 {
-    public class Messages : BaseEntity<Guid>
+    public class Message : BaseEntity<Guid>
     {
         [ForeignKey("ListingId")]
-        public Listings Listings { get; set; } = new Listings();
+        public Listing.Listing Listings { get; set; } = new Listing.Listing();
         public Guid ListingId { get; set; }
-        public Listings Listing { get; set; } = new Listings();
+        public Listing.Listing Listing { get; set; } = new Listing.Listing();
         public string Message { get; set; } = string.Empty;
 
         [ForeignKey("UserId")]
         public Guid UserId { get; set; }
-        public Users User { get; set; } = new Users();
+        public User.User User { get; set; } = new User.User();
     }
 }

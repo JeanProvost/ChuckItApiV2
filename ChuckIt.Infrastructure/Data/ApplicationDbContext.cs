@@ -11,24 +11,25 @@ namespace ChuckItApiV2.Infrastructure.Data
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
-        public DbSet<Users> Users { get; set; }
-        public DbSet<Listings> Listings { get; set; }
-        public DbSet<Categories> Categories { get; set; }
-        public DbSet<Messages> Messages { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Listing> Listings { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Message> Messages { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Users>()
+            modelBuilder.Entity<User>()
                 .HasMany(u => u.Listings)
                 .WithOne(l => l.User)
                 .HasForeignKey(l => l.UserId);
 
-            modelBuilder.Entity<Listings>()
+            modelBuilder.Entity<Listing>()
                 .HasMany(l => l.Images)
                 .WithOne(i => i.Listing)
                 .HasForeignKey(i => i.ListingId);
+
         }
     }
 }

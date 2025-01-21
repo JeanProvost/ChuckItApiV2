@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ChuckItApiV2.Core.Entities.Category
 {
-    public class Categories
+    public class Category
     {
         [Key]
         public int Id { get; set; }

@@ -31,7 +31,7 @@ if (string.IsNullOrEmpty(dbHost) || string.IsNullOrEmpty(dbName) || string.IsNul
 
 var connectionString = $"Host={dbHost}; Port={dbPort}; UserId={dbUser}; Password={dbPassword}; Database={dbName}";
 
-//Create AplicationDbContext
+//Create ApplicationDbContext
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(connectionString)
         .EnableDetailedErrors()

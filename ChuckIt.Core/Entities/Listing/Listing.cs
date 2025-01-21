@@ -5,18 +5,18 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ChuckItApiV2.Core.Entities.Listing
 {
-    public class Listings : BaseEntity<Guid>
+    public class Listing : BaseEntity<Guid>
     {
         public string Title { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
         public double Price { get; set; }
 
         [ForeignKey("CategoryId")]
-        public Categories Category { get; set; } = new Categories();
+        public Category.Category Category { get; set; } = new Category.Category();
         public int CategoryId { get; set; }
 
         [ForeignKey("UserId")]
-        public Users User { get; set; } = new Users();
+        public User.User User { get; set; } = new User.User();
         public Guid UserId { get; set; }
         public ICollection<Images> Images { get; set; } = new List<Images>();
     }
@@ -33,6 +33,6 @@ namespace ChuckItApiV2.Core.Entities.Listing
 
         [ForeignKey("ListingId")]
         public Guid ListingId { get; set; }
-        public Listings Listing { get; set; } = new Listings();
+        public Listing Listing { get; set; } = new Listing();
     }
 }
