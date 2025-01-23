@@ -11,7 +11,7 @@ namespace ChuckItApiV2.Core.Entities.Message
         public Listing.Listing Listings { get; set; } = new Listing.Listing();
         public Guid ListingId { get; set; }
         public Listing.Listing Listing { get; set; } = new Listing.Listing();
-        public string Message { get; set; } = string.Empty;
+        public string Content { get; set; } = string.Empty;
 
         [ForeignKey("UserId")]
         public Guid UserId { get; set; }

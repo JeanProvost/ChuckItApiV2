@@ -1,0 +1,6 @@
+services:
+  chuckitapiv2:
+    image: ${DOCKER_REGISTRY-}chuckitapiv2
+    build:
+      context: .
+      dockerfile: ChuckItApiV2/Dockerfile
