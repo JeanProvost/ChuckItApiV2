@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Amazon.Extensions.NETCore.Setup;
 using Microsoft.OpenApi.Models;
+using Scalar.AspNetCore;
 
 
 DotEnv.Load();
@@ -55,7 +56,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 builder.Services.AddAuthentication();
 
-builder.Services.AddSwaggerGen(c =>
+/* Swwagger Implementation
+ * builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v2", new OpenApiInfo
     {
@@ -73,6 +75,8 @@ builder.Services.AddSwaggerGen(c =>
         Description = "Enter Bearer Token"
     });
 
+
+
     c.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
         {
@@ -88,7 +92,9 @@ builder.Services.AddSwaggerGen(c =>
         }
 
     });
-});
+}); */
+
+//Scalar Implementation(Testing to replace Swagger)
 
 //AWS Services
 var awsOptions = new AWSOptions
@@ -103,15 +109,20 @@ builder.Services.AddSingleton(awsOptions);
 
 var app = builder.Build();
 
+app.MapOpenApi();
+
 //Middleware Configuration
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
-    app.UseSwagger();
+    /* app.UseSwagger();
     app.UseSwaggerUI(c =>
     {
         c.SwaggerEndpoint("/swagger/v2/swagge3r.json", "ChuckItAPI V2");
-    });
+    }); */
+    
+    //TODO Scalar Implementation with color scheme theme
+    app.MapScalarApiReference();
 }
 else
 {
