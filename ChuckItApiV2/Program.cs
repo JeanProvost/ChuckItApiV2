@@ -6,13 +6,14 @@ using Microsoft.IdentityModel.Tokens;
 using Amazon.Extensions.NETCore.Setup;
 using Microsoft.OpenApi.Models;
 using Scalar.AspNetCore;
+using Amazon.CognitoIdentityProvider;
 
 
 DotEnv.Load();
 var builder = WebApplication.CreateBuilder(args);
 
 var configuration = builder.Configuration;
-var environment = builder.Environment;
+//var environment = builder.Environment;
 
 var dbHost = Environment.GetEnvironmentVariable("DB_HOST");
 var dbName = Environment.GetEnvironmentVariable("DB_NAME");
@@ -23,6 +24,7 @@ var jwtKey = Environment.GetEnvironmentVariable("JwtKey");
 var cognitoUserPoolId = Environment.GetEnvironmentVariable("COGNITO_USER_POOL_ID");
 var cognitoClientId = Environment.GetEnvironmentVariable("COGNITO_CLIENT_ID");
 var AWSRegion = Environment.GetEnvironmentVariable("AWS_REGION");
+var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 
 if (string.IsNullOrEmpty(dbHost) || string.IsNullOrEmpty(dbName) || string.IsNullOrEmpty(dbUser) || string.IsNullOrEmpty(dbPassword)
     || string.IsNullOrEmpty(dbPort))
@@ -38,6 +40,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
         .EnableDetailedErrors()
         .EnableSensitiveDataLogging()
 );
+
+builder.Services.AddAuthorization();
 
 //Cognito Authentication
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -55,6 +59,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 
 builder.Services.AddAuthentication();
+
+builder.Services.AddControllers();
 
 /* Swwagger Implementation
  * builder.Services.AddSwaggerGen(c =>
@@ -103,6 +109,9 @@ var awsOptions = new AWSOptions
 };
 
 builder.Services.AddSingleton(awsOptions);
+
+//AWS Services
+builder.Services.AddAWSService<IAmazonCognitoIdentityProvider>();
 
 //App Services
 
