@@ -4,3 +4,24 @@ services:
     build:
       context: .
       dockerfile: ChuckItApiV2/Dockerfile
+    env_file:
+        - ./ChuckItApiV2/.env
+    environment:
+        - AWS_REGION=${AWS_REGION}
+        - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+        - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+  chuckIt.db:
+    restart: on-failure
+    image: postgres:16
+    ports:
+        - "5432:5432"
+    container_name: chuckIt.postgres
+    environment:
+        - POSTGRES_USER=postgres
+        - POSTGRES_DB=${POSTGRES_DB}
+        - POSTGRES_PASSWORD=devdbpassword
+    volumes:
+        - chuckIt.postgres:/var/lib/postgres/data
+
+volumes:
+  chuckIt.postgres:
