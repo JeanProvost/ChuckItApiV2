@@ -1,22 +1,24 @@
 ﻿using ChuckItApiV2.Core.Entities.Base;
 using ChuckItApiV2.Core.Entities.Category;
-using ChuckItApiV2.Core.Entities.User;
+using ChuckItApiV2.Core.Entities.Users;
 using System.ComponentModel.DataAnnotations.Schema;
+using ChuckItApiV2.Core.Entities.Messages;
 
-namespace ChuckItApiV2.Core.Entities.Listing
+namespace ChuckItApiV2.Core.Entities.Listings
 {
     public class Listing : BaseEntity<Guid>
     {
         public string Title { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
         public double Price { get; set; }
+        public ICollection<Message> Messages { get; set; } = new List<Message>();
 
         [ForeignKey("CategoryId")]
         public Category.Category Category { get; set; } = new Category.Category();
         public int CategoryId { get; set; }
 
         [ForeignKey("UserId")]
-        public User.User User { get; set; } = new User.User();
+        public User User { get; set; } = new User();
         public Guid UserId { get; set; }
         public ICollection<Images> Images { get; set; } = new List<Images>();
     }
