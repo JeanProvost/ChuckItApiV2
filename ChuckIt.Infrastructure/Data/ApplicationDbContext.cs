@@ -1,8 +1,8 @@
 ﻿using ChuckItApiV2.Core.Entities;
 using ChuckItApiV2.Core.Entities.Category;
-using ChuckItApiV2.Core.Entities.Listing;
-using ChuckItApiV2.Core.Entities.Message;
-using ChuckItApiV2.Core.Entities.User;
+using ChuckItApiV2.Core.Entities.Listings;
+using ChuckItApiV2.Core.Entities.Messages;
+using ChuckItApiV2.Core.Entities.Users;
 using Microsoft.EntityFrameworkCore;
 
 namespace ChuckItApiV2.Infrastructure.Data
@@ -30,6 +30,11 @@ namespace ChuckItApiV2.Infrastructure.Data
                 .WithOne(i => i.Listing)
                 .HasForeignKey(i => i.ListingId);
 
+            modelBuilder.Entity<Message>()
+                .HasOne(m => m.Listings)
+                .WithMany(l => l.Messages)
+                .HasForeignKey(m => m.ListingId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

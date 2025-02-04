@@ -3,6 +3,7 @@ using System;
 using ChuckItApiV2.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ChuckIt.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250204033508_FixingListingAndMessagesTables")]
+    partial class FixingListingAndMessagesTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -146,7 +149,7 @@ namespace ChuckIt.Infrastructure.Migrations
                     b.ToTable("Messages");
                 });
 
-            modelBuilder.Entity("ChuckItApiV2.Core.Entities.Users.User", b =>
+            modelBuilder.Entity("ChuckItApiV2.Core.Entities.User.User", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -190,7 +193,7 @@ namespace ChuckIt.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ChuckItApiV2.Core.Entities.Users.User", "User")
+                    b.HasOne("ChuckItApiV2.Core.Entities.User.User", "User")
                         .WithMany("Listings")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -209,7 +212,7 @@ namespace ChuckIt.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ChuckItApiV2.Core.Entities.Users.User", "Users")
+                    b.HasOne("ChuckItApiV2.Core.Entities.User.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -217,7 +220,7 @@ namespace ChuckIt.Infrastructure.Migrations
 
                     b.Navigation("Listings");
 
-                    b.Navigation("Users");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("ChuckItApiV2.Core.Entities.Listings.Listing", b =>
@@ -227,7 +230,7 @@ namespace ChuckIt.Infrastructure.Migrations
                     b.Navigation("Messages");
                 });
 
-            modelBuilder.Entity("ChuckItApiV2.Core.Entities.Users.User", b =>
+            modelBuilder.Entity("ChuckItApiV2.Core.Entities.User.User", b =>
                 {
                     b.Navigation("Listings");
                 });

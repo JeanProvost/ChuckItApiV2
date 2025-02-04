@@ -102,6 +102,8 @@ builder.Services.AddControllers();
 
 //Scalar Implementation(Testing to replace Swagger)
 
+
+
 //AWS Services
 var awsOptions = new AWSOptions
 {
@@ -124,11 +126,6 @@ app.MapOpenApi();
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
-    /* app.UseSwagger();
-    app.UseSwaggerUI(c =>
-    {
-        c.SwaggerEndpoint("/swagger/v2/swagge3r.json", "ChuckItAPI V2");
-    }); */
     
     //TODO Scalar Implementation with color scheme theme
     app.MapScalarApiReference();
