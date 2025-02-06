@@ -147,10 +147,16 @@ app.MapControllers();
 //Apply migrations
 using (var scope = app.Services.CreateScope())
 {
-    Console.WriteLine("Applying Migrations...");
-    var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    dbContext.Database.Migrate();
+    try
+    {
+        Console.WriteLine("Applying Migrations...");
+        var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+        dbContext.Database.Migrate();
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Database connection failed: {ex.Message}");
+    }
 
-    Console.WriteLine("Migrations Completed");
-    
+    Console.WriteLine("Migrations Completed");   
 }
