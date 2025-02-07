@@ -2,11 +2,19 @@
 
 namespace ChuckItApiV2.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class UserController : Controller
     {
-        public IActionResult Index()
+        public UserController()
         {
-            return View();
+
+        }
+
+        [HttpPost("register")]
+        public async Task<IActionResult> Register()
+        {
+            return Ok();
         }
     }
 }

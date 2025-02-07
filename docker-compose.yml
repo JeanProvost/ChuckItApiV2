@@ -1,12 +1,14 @@
 services:
   chuckitapiv2:
     image: ${DOCKER_REGISTRY-}chuckitapiv2
+    container_name: "chuckit.api"
     build:
       context: .
       dockerfile: ChuckItApiV2/Dockerfile
     env_file:
         - ./ChuckItApiV2/.env
     environment:
+        - ConnectionString__DefaultConnection=Server=${DB_HOST};Database=${DB_NAME};UserId=${DB_USER};Password=${DB_PASSWORD};
         - AWS_REGION=${AWS_REGION}
         - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
         - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
