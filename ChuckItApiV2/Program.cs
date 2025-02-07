@@ -90,7 +90,8 @@ if (app.Environment.IsDevelopment())
     app.MapScalarApiReference(options =>
     {
         options
-            .WithTitle("Chuck It V2 API");
+            .WithTitle("Chuck It V2 API")
+            .Theme = ScalarTheme.Solarized;
 
     });
 }
