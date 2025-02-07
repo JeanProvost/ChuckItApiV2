@@ -61,48 +61,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.AddAuthentication();
 
 builder.Services.AddControllers();
-
-/* Swwagger Implementation
- * builder.Services.AddSwaggerGen(c =>
-{
-    c.SwaggerDoc("v2", new OpenApiInfo
-    {
-        Title = "ChuckItApiV2",
-        Version = "v2"
-    });
-
-    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-    {
-        Name = "Authorization",
-        Type = SecuritySchemeType.Http,
-        Scheme = "Bearer",
-        BearerFormat = "JWT",
-        In = ParameterLocation.Header,
-        Description = "Enter Bearer Token"
-    });
-
-
-
-    c.AddSecurityRequirement(new OpenApiSecurityRequirement
-    {
-        {
-            new OpenApiSecurityScheme
-            {
-                Reference = new OpenApiReference
-                {
-                    Type = ReferenceType.SecurityScheme,
-                    Id = "Bearer"
-                }
-            },
-            new string[] { }
-        }
-
-    });
-}); */
-
-//Scalar Implementation(Testing to replace Swagger)
-
-
+builder.Services.AddOpenApi();
 
 //AWS Services
 var awsOptions = new AWSOptions
@@ -120,15 +79,20 @@ builder.Services.AddAWSService<IAmazonCognitoIdentityProvider>();
 
 var app = builder.Build();
 
-app.MapOpenApi();
+
 
 //Middleware Configuration
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
-    
-    //TODO Scalar Implementation with color scheme theme
-    app.MapScalarApiReference();
+
+    app.MapOpenApi();
+    app.MapScalarApiReference(options =>
+    {
+        options
+            .WithTitle("Chuck It V2 API");
+
+    });
 }
 else
 {
@@ -160,3 +124,5 @@ using (var scope = app.Services.CreateScope())
 
     Console.WriteLine("Migrations Completed");   
 }
+
+app.Run();
