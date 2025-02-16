@@ -7,6 +7,10 @@ using Amazon.Extensions.NETCore.Setup;
 using Microsoft.OpenApi.Models;
 using Scalar.AspNetCore;
 using Amazon.CognitoIdentityProvider;
+using ChuckIt.Core.Interfaces.IServices;
+using ChuckIt.Core.Services;
+using ChuckIt.Core.Interfaces.IRepositories;
+using ChuckIt.Infrastructure.Repositories;
 
 
 DotEnv.Load();
@@ -24,6 +28,8 @@ var jwtKey = Environment.GetEnvironmentVariable("JwtKey");
 var cognitoUserPoolId = Environment.GetEnvironmentVariable("COGNITO_USER_POOL_ID");
 var cognitoClientId = Environment.GetEnvironmentVariable("COGNITO_CLIENT_ID");
 var AWSRegion = Environment.GetEnvironmentVariable("AWS_REGION");
+var accessKey = Environment.GetEnvironmentVariable("AWS_ACCESS_KEY_ID");
+var secretAccessKey = Environment.GetEnvironmentVariable("AWS_SECRET_ACCESS_KEY");
 var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 
 if (string.IsNullOrEmpty(dbHost) || string.IsNullOrEmpty(dbName) || string.IsNullOrEmpty(dbUser) || string.IsNullOrEmpty(dbPassword)
@@ -75,7 +81,10 @@ builder.Services.AddSingleton(awsOptions);
 builder.Services.AddAWSService<IAmazonCognitoIdentityProvider>();
 
 //App Services
+builder.Services.AddScoped<IAuthService, AuthService>();
 
+//App Repositories
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 var app = builder.Build();
 
