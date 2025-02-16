@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using ChuckIt.Core.Entities.Users.Dtos;
+using ChuckIt.Core.Interfaces.IServices;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ChuckItApiV2.Controllers
 {
@@ -6,15 +9,25 @@ namespace ChuckItApiV2.Controllers
     [ApiController]
     public class UserController : Controller
     {
-        public UserController()
-        {
 
+        private readonly IAuthService _authService;
+        public UserController(IAuthService authService)
+        {
+            _authService = authService;
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register()
+        [AllowAnonymous]
+        public async Task<IActionResult> Register([FromBody] RegisterDto request)
         {
-            return Ok();
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var result = await _authService.RegisterUserAsync(request);
+
+            return Ok(result);
         }
     }
 }
