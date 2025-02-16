@@ -7,6 +7,10 @@ using Amazon.Extensions.NETCore.Setup;
 using Microsoft.OpenApi.Models;
 using Scalar.AspNetCore;
 using Amazon.CognitoIdentityProvider;
+using ChuckIt.Core.Interfaces.IServices;
+using ChuckIt.Core.Services;
+using ChuckIt.Core.Interfaces.IRepositories;
+using ChuckIt.Infrastructure.Repositories;
 
 
 DotEnv.Load();
@@ -75,7 +79,10 @@ builder.Services.AddSingleton(awsOptions);
 builder.Services.AddAWSService<IAmazonCognitoIdentityProvider>();
 
 //App Services
+builder.Services.AddScoped<IAuthService, AuthService>();
 
+//App Repositories
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 var app = builder.Build();
 
