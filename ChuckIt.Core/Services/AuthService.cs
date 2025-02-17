@@ -77,6 +77,67 @@ namespace ChuckIt.Core.Services
             return "User registered successfully";
         }
 
+        public async Task<ConfirmSignUpResponse> VerifyEmailAsync(VerifyEmailDto verifyRequest)
+        {
+            var request = new ConfirmSignUpRequest
+            {
+                ClientId = _clientId,
+                Username = verifyRequest.Email,
+                ConfirmationCode = verifyRequest.ConfirmationCode,
+                SecretHash = GenerateSecretHash(verifyRequest.Email, _clientId, _cognitoClientSecret),
+            };
+
+            var response = await _cognitoProvider.ConfirmSignUpAsync(request);
+
+            return response;
+        }
+
+        public async Task<ResendConfirmationCodeResponse> ResendConfirmationCodeAsync(string email)
+        {
+            var request = new ResendConfirmationCodeRequest
+            {
+                ClientId = _clientId,
+                Username = email,
+                SecretHash = GenerateSecretHash(email, _clientId, _cognitoClientSecret),
+            };
+
+            var response = await _cognitoProvider.ResendConfirmationCodeAsync(request);
+
+            return response;
+        }
+
+        public async Task<LoginResponseDto> LoginAsync(LoginDto login)
+        {
+            var cognitoProvider = new AmazonCognitoIdentityProviderClient();
+
+            var authRequest = new InitiateAuthRequest
+            {
+                AuthFlow = AuthFlowType.USER_PASSWORD_AUTH,
+                ClientId = _clientId,
+                AuthParameters = new Dictionary<string, string>
+                {
+                    { "USERNAME", login.Email },
+                    { "PASSWORD", login.Password },
+                    { "SECRET_HASH", GenerateSecretHash(login.Email, _clientId, _cognitoClientSecret) }
+                }
+            };
+
+            try
+            {
+                var authResponse = await _cognitoProvider.InitiateAuthAsync(authRequest);
+
+                return new LoginResponseDto
+                {
+                    AccessToken = authResponse.AuthenticationResult.AccessToken,
+                    RefreshToken = authResponse.AuthenticationResult.RefreshToken,
+                    ExpiresIn = authResponse.AuthenticationResult.ExpiresIn
+                };
+            }
+            catch (NotAuthorizedException ex)
+            {
+                throw new Exception($"Invalid login credentials: {ex.Message}");
+            }
+        }
 
         private string GenerateSecretHash(string username, string clientId, string clientSecret)
         {
