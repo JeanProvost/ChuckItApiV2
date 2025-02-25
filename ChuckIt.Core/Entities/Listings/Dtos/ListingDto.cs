@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ChuckIt.Core.Entities.Listings
+namespace ChuckIt.Core.Entities.Listings.Dtos
 {
     public class ListingDto
     {
@@ -15,5 +15,7 @@ namespace ChuckIt.Core.Entities.Listings
         public double Price { get; set; }
         public int CategoryId { get; set; }
         public List<string> ImageFileName { get; set; } = new List<string>();
+
+        public ListingDto() { }
     }
 }
