@@ -1,4 +1,5 @@
-﻿using ChuckItApiV2.Core.Entities.Listings;
+﻿using ChuckIt.Core.Entities.Listings.Dtos;
+using ChuckItApiV2.Core.Entities.Listings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,5 +10,7 @@ namespace ChuckIt.Core.Interfaces.IRepositories
 {
     public interface IListingRepository : IBaseRepository<Listing>
     {
+        Task<List<ListingDto>> GetAllListingsAsync();
+        Task<ListingDto> GetListingDetailsAsync(Guid id);
     }
 }

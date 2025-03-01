@@ -11,6 +11,7 @@ using ChuckIt.Core.Interfaces.IServices;
 using ChuckIt.Core.Services;
 using ChuckIt.Core.Interfaces.IRepositories;
 using ChuckIt.Infrastructure.Repositories;
+using Amazon.S3;
 
 
 DotEnv.Load();
@@ -79,12 +80,15 @@ builder.Services.AddSingleton(awsOptions);
 
 //AWS Services
 builder.Services.AddAWSService<IAmazonCognitoIdentityProvider>();
+builder.Services.AddAWSService<IAmazonS3>();
 
 //App Services
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IListingService, ListingService>();
 
 //App Repositories
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IListingRepository, ListingRepository>();
 
 var app = builder.Build();
 
