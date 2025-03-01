@@ -13,7 +13,7 @@ namespace ChuckIt.Core.Entities.Listings.Dtos
     {
         public string Title { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
-        public double Price { get; set; }
+        public decimal Price { get; set; }
         public int CategoryId { get; set; }
         public List<string> ImageFileName { get; set; } = new List<string>();
         public Guid UserId { get; set; }

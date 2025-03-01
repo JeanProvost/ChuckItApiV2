@@ -1,4 +1,5 @@
-﻿using ChuckIt.Core.Interfaces.IServices;
+﻿using ChuckIt.Core.Entities.Listings.Dtos;
+using ChuckIt.Core.Interfaces.IServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -29,6 +30,15 @@ namespace ChuckItApiV2.Controllers
         public async Task<IActionResult> GetListingDetails(Guid id)
         {
             var listing = await _listingService.GetListingDetailsAsync(id);
+
+            return Ok(listing);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "User")]
+        public async Task<IActionResult> CreateListing([FromBody] CreateListingDto request)
+        {
+            var listing = await _listingService.CreateListingAsync(request);
 
             return Ok(listing);
         }

@@ -27,19 +27,12 @@ namespace ChuckIt.Core.Services
             _bucketName = Environment.GetEnvironmentVariable("S3_BUCKET_NAME") ?? string.Empty;
         }
 
-        public async Task<ListingDto> CreateListingAsync(ListingDto request)
+        public async Task<ListingDto> CreateListingAsync(CreateListingDto request)
         {
-            var listing = new Listing
-            {
-                Id = Guid.NewGuid(),
-                Title = request.Title,
-                Description = request.Description,
-                CategoryId = request.CategoryId,
-                Price = request.Price,
-                Images = new List<Images>()
-            };
+            var listing = new Listing(request);
+            listing.Images = new List<Images>();
 
-            foreach(var base64Image in request.ImageFileName)
+            foreach (var base64Image in request.ImageFileName)
             {
                 string fileExtension = GetImageExtension(base64Image);
                 var fileName = $"{Guid.NewGuid()}.{fileExtension}";
@@ -53,7 +46,7 @@ namespace ChuckIt.Core.Services
 
             await _listingRepository.Create(listing);
 
-            return new ListingDto() { };
+            return new ListingDto(listing);
         }
 
         private string GetImageExtension(string base64Image)
