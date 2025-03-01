@@ -34,5 +34,21 @@ namespace ChuckIt.Infrastructure.Repositories
 
             return listings;
         }
+
+        public async Task<ListingDto> GetListingDetailsAsync(Guid id)
+        {
+            var listing = await _context.Listings
+                .Include(l => l.Category)
+                .Include(l => l.User)
+                .Include(l => l.Images)
+                .FirstOrDefaultAsync(l => l.Id == id);
+
+            if (listing == null)
+            {
+                throw new Exception($"Listing with ID {id} not found");
+            }
+
+            return new ListingDto(listing);
+        }
     }
 }

@@ -10,5 +10,6 @@ namespace ChuckIt.Core.Interfaces.IServices
     public interface IListingService
     {
         Task<List<ListingDto>> GetAllListingsAsync();
+        Task<ListingDto> GetListingDetailsAsync(Guid id);
     }
 }

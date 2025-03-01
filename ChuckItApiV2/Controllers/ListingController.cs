@@ -23,5 +23,14 @@ namespace ChuckItApiV2.Controllers
 
             return Ok(listings);
         }
+
+        [HttpGet("{id}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetListingDetails(Guid id)
+        {
+            var listing = await _listingService.GetListingDetailsAsync(id);
+
+            return Ok(listing);
+        }
     }
 }
