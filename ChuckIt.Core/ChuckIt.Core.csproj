@@ -12,4 +12,8 @@
     <PackageReference Include="AWSSDK.S3" Version="3.7.415" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="9.0.2" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Entities\Listings\ViewModels\" />
+  </ItemGroup>
 </Project>

@@ -92,5 +92,10 @@ namespace ChuckIt.Core.Services
 
             return s3Url;
         }
+
+        public async  Task<List<ListingDto>> GetAllListingsAsync()
+        {
+            return await _listingRepository.GetAllListingsAsync();
+        }
     }
 }
