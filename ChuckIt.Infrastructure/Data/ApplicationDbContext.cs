@@ -1,4 +1,5 @@
-﻿using ChuckItApiV2.Core.Entities;
+﻿using ChuckIt.Infrastructure.Seeders;
+using ChuckItApiV2.Core.Entities;
 using ChuckItApiV2.Core.Entities.Category;
 using ChuckItApiV2.Core.Entities.Listings;
 using ChuckItApiV2.Core.Entities.Messages;
@@ -35,6 +36,8 @@ namespace ChuckItApiV2.Infrastructure.Data
                 .WithMany(l => l.Messages)
                 .HasForeignKey(m => m.ListingId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            CategorySeeder.Seed(modelBuilder);
         }
     }
 }
