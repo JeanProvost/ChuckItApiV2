@@ -55,6 +55,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
         options.Authority = $"https://cognito-idp.{AWSRegion}.amazonaws.com/{cognitoUserPoolId}";
+        options.Audience = cognitoClientId;
         options.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuer = true,
@@ -62,6 +63,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateAudience = true,
             ValidAudience = cognitoClientId,
             ValidateLifetime = true,
+            RoleClaimType = "cognito:groups"
         };
     });
 
