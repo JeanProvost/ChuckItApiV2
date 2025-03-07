@@ -1,4 +1,6 @@
-﻿using Amazon.CognitoIdentityProvider;
+﻿// Ignore Spelling: Auth Dto
+
+using Amazon.CognitoIdentityProvider;
 using Amazon.CognitoIdentityProvider.Model;
 using ChuckIt.Core.Entities.Users.Dtos;
 using ChuckIt.Core.Interfaces.IRepositories;
@@ -43,7 +45,7 @@ namespace ChuckIt.Core.Services
                 throw new InvalidOperationException($"User already registered with email {registerDto.Email}");
             }
 
-            //Cognito user signup
+            //Cognito user sign up
             var signUpRequest = new SignUpRequest
             {
                 ClientId = _clientId,

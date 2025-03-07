@@ -1,4 +1,6 @@
-﻿using Amazon.CognitoIdentityProvider.Model;
+﻿// Ignore Spelling: auth
+
+using Amazon.CognitoIdentityProvider.Model;
 using ChuckIt.Core.Entities.Listings.Dtos;
 using ChuckIt.Core.Interfaces.IServices;
 using Microsoft.AspNetCore.Authorization;
