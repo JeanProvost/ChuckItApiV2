@@ -41,13 +41,6 @@ namespace ChuckItApiV2.Controllers
         [Authorize(Roles = "User")]
         public async Task<IActionResult> CreateListing([FromBody] CreateListingDto request)
         {
-           /* var userId = _authService.GetUserId(User);
-
-            if (userId == Guid.Empty)
-            {
-                throw new UnauthorizedException("Unauthorized");
-            } */
-
             var listing = await _listingService.CreateListingAsync(request);
 
             return Ok(listing);
