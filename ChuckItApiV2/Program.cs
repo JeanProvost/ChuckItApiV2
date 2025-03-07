@@ -55,17 +55,33 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
         options.Authority = $"https://cognito-idp.{AWSRegion}.amazonaws.com/{cognitoUserPoolId}";
+        options.Audience = cognitoClientId;
         options.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuer = true,
-            ValidIssuer = $"https://cognito-idp.{AWSRegion}.amazinaws.com/{cognitoUserPoolId}",
-            ValidateAudience = true,
-            ValidAudience = cognitoClientId,
+            ValidateAudience = false,
             ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = $"https://cognito-idp.{AWSRegion}.amazonaws.com/{cognitoUserPoolId}",
+            ValidAudience = cognitoClientId,
+            RoleClaimType = "cognito:groups",
+        };
+
+        options.Events = new JwtBearerEvents
+        {
+            OnAuthenticationFailed = context =>
+            {
+                Console.WriteLine($"Authentication failed: {context.Exception}");
+                return Task.CompletedTask;
+            },
+            OnTokenValidated = context =>
+            {
+                var claims = context.Principal?.Claims.Select(c => $"{c.Type}: {c.Value}");
+                Console.WriteLine($"Token validated. Claims: {string.Join(", ", claims ?? Array.Empty<string>())}");
+                return Task.CompletedTask;
+            }
         };
     });
-
-builder.Services.AddAuthentication();
 
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();

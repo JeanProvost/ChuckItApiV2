@@ -1,4 +1,5 @@
-﻿using ChuckIt.Core.Entities.Listings.Dtos;
+﻿using Amazon.CognitoIdentityProvider.Model;
+using ChuckIt.Core.Entities.Listings.Dtos;
 using ChuckIt.Core.Interfaces.IServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -10,10 +11,12 @@ namespace ChuckItApiV2.Controllers
     public class ListingController : Controller
     {
         private readonly IListingService _listingService;
+        private readonly IAuthService _authService;
 
-        public ListingController(IListingService listingService)
+        public ListingController(IListingService listingService, IAuthService authService)
         {
             _listingService = listingService;
+            _authService = authService;
         }
 
         [HttpGet]

@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -150,6 +151,15 @@ namespace ChuckIt.Core.Services
                 var hashBytes = hmac.ComputeHash(dataBytes);
                 return Convert.ToBase64String(hashBytes);
             }
+        } 
+
+      public Guid GetUserId(ClaimsPrincipal user)
+        {
+            var userId = user.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value
+                ?? throw new UnauthorizedException("User ID not found in claims");
+            var userGuid = Guid.Parse(userId);
+
+            return userGuid;
         }
     }
 }
