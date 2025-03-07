@@ -13,6 +13,5 @@ namespace ChuckIt.Core.Entities.Listings.Dtos
         public int CategoryId { get; set; }
         public decimal Price { get; set; }
         public List<string> ImageFileName { get; set; } = new List<string>();
-        public Guid UserId { get; set; }
     }
 }
