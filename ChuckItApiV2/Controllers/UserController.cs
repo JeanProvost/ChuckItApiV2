@@ -1,4 +1,6 @@
-﻿using ChuckIt.Core.Entities.Users.Dtos;
+﻿// Ignore Spelling: auth
+
+using ChuckIt.Core.Entities.Users.Dtos;
 using ChuckIt.Core.Interfaces.IServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

@@ -1,4 +1,5 @@
-﻿using ChuckItApiV2.Core.Entities.Category;
+﻿// Ignore Spelling: Dtos Dto
+using ChuckItApiV2.Core.Entities.Category;
 using ChuckItApiV2.Core.Entities.Listings;
 using System;
 using System.Collections.Generic;
