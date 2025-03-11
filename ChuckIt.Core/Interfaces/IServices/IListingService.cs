@@ -14,5 +14,6 @@ namespace ChuckIt.Core.Interfaces.IServices
         Task<Listing> GetListingDetailsAsync(Guid id);
         Task<ListingDto> CreateListingAsync(CreateListingDto request);
         Task<ListingDto> UpdateListingAsync(UpdateListingDto request);
+        Task DeleteListingAsync(Guid id);
     }
 }
