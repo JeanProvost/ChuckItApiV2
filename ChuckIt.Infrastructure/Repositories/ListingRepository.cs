@@ -29,13 +29,14 @@ namespace ChuckIt.Infrastructure.Repositories
                     Description = l.Description,
                     Price = l.Price,
                     CategoryId = l.CategoryId,
+                    UserId = l.UserId,
                     ImageFileName = l.Images.Select(i => i.FileName).ToList()
                 }).ToListAsync();
 
             return listings;
         }
 
-        public async Task<ListingDto> GetListingDetailsAsync(Guid id)
+        public async Task<Listing> GetListingDetailsAsync(Guid id)
         {
             var listing = await _context.Listings
                 .Include(l => l.Category)
@@ -48,7 +49,7 @@ namespace ChuckIt.Infrastructure.Repositories
                 throw new Exception($"Listing with ID {id} not found");
             }
 
-            return new ListingDto(listing);
+            return listing;
         }
     }
 }

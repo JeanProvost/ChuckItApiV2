@@ -5,6 +5,7 @@ using ChuckIt.Core.Entities.Listings.Dtos;
 using ChuckIt.Core.Interfaces.IServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace ChuckItApiV2.Controllers
 {
@@ -46,6 +47,32 @@ namespace ChuckItApiV2.Controllers
             var listing = await _listingService.CreateListingAsync(request);
 
             return Ok(listing);
+        }
+
+        [HttpPut("{id}")]
+        [Authorize(Roles = "User")]
+        public async Task<IActionResult> UpdateListing(Guid id, [FromBody] UpdateListingDto request)
+        {
+            if (id != request.Id)
+            {
+                return BadRequest();
+            }
+
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (userId == null)
+            {
+                return Unauthorized();
+            }
+
+            try
+            {
+                var listing = await _listingService.UpdateListingAsync(request);
+                return Ok(listing);
+            }
+            catch (Exception ex)
+            {
+                return NotFound(ex.Message);
+            }
         }
     }
 }

@@ -1,10 +1,12 @@
 ﻿// Ignore Spelling: auth
 
+using ChuckIt.Core.Entities.Listings.Dtos;
 using ChuckIt.Core.Entities.Users.Dtos;
 using ChuckIt.Core.Interfaces.IServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Reflection.Metadata.Ecma335;
+using System.Security.Claims;
 
 namespace ChuckItApiV2.Controllers
 {
