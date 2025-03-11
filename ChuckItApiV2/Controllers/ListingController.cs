@@ -74,5 +74,24 @@ namespace ChuckItApiV2.Controllers
                 return NotFound(ex.Message);
             }
         }
+
+        public async Task<IActionResult> DeleteListing(Guid id)
+        {
+            try
+            {
+                var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                if (userId == null)
+                {
+                    return Unauthorized();
+                }
+
+                await _listingService.DeleteListingAsync(id);
+                return Ok("Listing successfully deleted");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

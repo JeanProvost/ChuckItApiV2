@@ -129,5 +129,17 @@ namespace ChuckIt.Core.Services
             var updatedListing = await _listingRepository.Update(listing);
             return new ListingDto(updatedListing);
         }
+
+        public async Task DeleteListingAsync(Guid id)
+        {
+            var listing = await _listingRepository.GetListingDetailsAsync(id);
+
+            if (listing == null)
+            {
+                throw new Exception($"Listing with ID {id} not found");
+            }
+
+            await _listingRepository.Delete(listing);
+        }
     }
 }
