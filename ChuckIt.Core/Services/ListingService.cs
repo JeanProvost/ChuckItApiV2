@@ -91,11 +91,43 @@ namespace ChuckIt.Core.Services
             return await _listingRepository.GetAllListingsAsync();
         }
 
-        public async Task<ListingDto> GetListingDetailsAsync(Guid id)
+        public async Task<Listing> GetListingDetailsAsync(Guid id)
         {
             var listing = await _listingRepository.GetListingDetailsAsync(id);
 
             return listing;
+        }
+
+        public async Task<ListingDto> UpdateListingAsync(UpdateListingDto request)
+        {
+            var listing = await _listingRepository.GetListingDetailsAsync(request.Id);
+
+            listing.Title = request.Title;
+            listing.Description = request.Description;
+            listing.CategoryId = request.CategoryId;
+            listing.Price = request.Price;
+
+            if (request.ImageFileName.Any())
+            {
+                foreach (var base64Image in request.ImageFileName)
+                {
+                    string fileExtension = GetImageExtension(base64Image);
+                    var fileName = $"{Guid.NewGuid()}.{fileExtension}";
+
+                    using (var imageStream = GetImageStream(base64Image))
+                    {
+                        var s3Url = await UploadImageToS3Async(imageStream, fileName);
+                        listing.Images.Add(new Images 
+                        {
+                            Id = Guid.NewGuid(),
+                            FileName = s3Url,
+                            ListingId = listing.Id
+                        });
+                    }
+                }
+            }
+            var updatedListing = await _listingRepository.Update(listing);
+            return new ListingDto(updatedListing);
         }
     }
 }
