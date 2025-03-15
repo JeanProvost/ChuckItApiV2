@@ -2,6 +2,8 @@
 using ChuckIt.Core.Interfaces.IRepositories;
 using ChuckItApiV2.Core.Entities.Listings;
 using ChuckItApiV2.Infrastructure.Data;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -30,7 +32,7 @@ namespace ChuckIt.Infrastructure.Repositories
                     Price = l.Price,
                     CategoryId = l.CategoryId,
                     UserId = l.UserId,
-                    ImageFileName = l.Images.Select(i => i.FileName).ToList()
+                    ImageFileName = l.Images.Select(img => (IFormFile)new FormFile(Stream.Null, 0, 0, null, img.FileName)).ToList(),
                 }).ToListAsync();
 
             return listings;
