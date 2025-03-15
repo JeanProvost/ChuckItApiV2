@@ -42,7 +42,8 @@ namespace ChuckItApiV2.Controllers
 
         [HttpPost]
         [Authorize(Roles = "User")]
-        public async Task<IActionResult> CreateListing([FromBody] CreateListingDto request)
+        [Consumes("multipart/form-data")]
+        public async Task<IActionResult> CreateListing([FromForm] CreateListingDto request)
         {
             var listing = await _listingService.CreateListingAsync(request);
 
@@ -51,6 +52,7 @@ namespace ChuckItApiV2.Controllers
 
         [HttpPut("{id}")]
         [Authorize(Roles = "User")]
+
         public async Task<IActionResult> UpdateListing(Guid id, [FromBody] UpdateListingDto request)
         {
             if (id != request.Id)

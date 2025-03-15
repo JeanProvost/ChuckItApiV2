@@ -9,6 +9,7 @@ using ChuckItApiV2.Core.Entities.Listings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.WebSockets;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -32,15 +33,22 @@ namespace ChuckIt.Core.Services
             var listing = new Listing(request);
             listing.Images = new List<Images>();
 
-            foreach (var base64Image in request.ImageFileName)
+            foreach (var imageFile in request.ImageFileName)
             {
-                string fileExtension = GetImageExtension(base64Image);
-                var fileName = $"{Guid.NewGuid()}.{fileExtension}";
+                var fileExtension = Path.GetExtension(imageFile.FileName);
+                var fileName = $"{Guid.NewGuid()}{fileExtension}";
 
-                using (var imageStream = GetImageStream(base64Image))
+                using (var stream = imageFile.OpenReadStream())
                 {
-                    var s3Url = await UploadImageToS3Async(imageStream, fileName);
+                    var s3Url = await UploadImageToS3Async(stream, fileName);
                     listing.Images.Add(new Images { FileName = s3Url });
+
+                    listing.Images.Add(new Images
+                    {
+                        Id = Guid.NewGuid(),
+                        FileName = s3Url,
+                        ListingId = listing.Id
+                    });
                 }
             }
 
