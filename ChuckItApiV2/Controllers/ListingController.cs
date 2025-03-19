@@ -3,6 +3,7 @@
 using Amazon.CognitoIdentityProvider.Model;
 using ChuckIt.Core.Entities.Listings.Dtos;
 using ChuckIt.Core.Interfaces.IServices;
+using ChuckItApiV2.Validators.Listings;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -45,6 +46,7 @@ namespace ChuckItApiV2.Controllers
         [Consumes("multipart/form-data")]
         public async Task<IActionResult> CreateListing([FromForm] CreateListingDto request)
         {
+           // var validator = new CreateListingValidator
             var listing = await _listingService.CreateListingAsync(request);
 
             return Ok(listing);
