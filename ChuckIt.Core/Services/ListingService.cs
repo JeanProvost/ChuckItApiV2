@@ -20,7 +20,7 @@ namespace ChuckIt.Core.Services
         private readonly IListingRepository _listingRepository;
         private readonly IAmazonS3 _s3Client;
         private readonly string _bucketName;
-
+        
         public ListingService(IListingRepository listingRepository, IAmazonS3 amazonS3)
         {
             _listingRepository = listingRepository;
@@ -33,22 +33,21 @@ namespace ChuckIt.Core.Services
             var listing = new Listing(request);
             listing.Images = new List<Images>();
 
-            foreach (var imageFile in request.ImageFileName)
+            foreach (var base64Image in request.ImageFileName)
             {
-                var fileExtension = Path.GetExtension(imageFile.FileName);
-                var fileName = $"{Guid.NewGuid()}{fileExtension}";
+                string fileExtention = GetImageExtension(base64Image);
+                var fileName = $"{Guid.NewGuid()}.{fileExtention}";
 
-                using (var stream = imageFile.OpenReadStream())
+                using (var imageStream = GetImageStream(base64Image))
                 {
-                    var s3Url = await UploadImageToS3Async(stream, fileName);
-                    listing.Images.Add(new Images { FileName = s3Url });
-
-                    listing.Images.Add(new Images
-                    {
+                    var s3Url = await UploadImageToS3Async(imageStream, fileName);
+                    listing.Images.Add(new Images 
+                    { 
                         Id = Guid.NewGuid(),
                         FileName = s3Url,
                         ListingId = listing.Id
                     });
+                    //this is a comment
                 }
             }
 

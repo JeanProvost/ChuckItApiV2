@@ -32,7 +32,8 @@ namespace ChuckIt.Infrastructure.Repositories
                     Price = l.Price,
                     CategoryId = l.CategoryId,
                     UserId = l.UserId,
-                    ImageFileName = l.Images.Select(img => (IFormFile)new FormFile(Stream.Null, 0, 0, null, img.FileName)).ToList(),
+                    ImageFileName = l.Images.Select(img => img.FileName).ToList(),
+                    CreatedAt = l.CreatedAt,
                 }).ToListAsync();
 
             return listings;
