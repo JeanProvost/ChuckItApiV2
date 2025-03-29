@@ -18,8 +18,9 @@ namespace ChuckIt.Core.Entities.Listings.Dtos
         public string Description { get; set; } = string.Empty;
         public decimal Price { get; set; }
         public int CategoryId { get; set; }
-        public List<IFormFile> ImageFileName { get; set; } = new List<IFormFile>();
+        public List<string> ImageFileName { get; set; } = new List<string>();
         public Guid UserId { get; set; }
+        public DateTime CreatedAt { get; set; }
 
         public ListingDto() { }
 
@@ -28,7 +29,7 @@ namespace ChuckIt.Core.Entities.Listings.Dtos
             Title = data.Title;
             CategoryId = data.CategoryId;
             Description = data.Description;
-            ImageFileName = data.Images.Select(image => (IFormFile)new FormFile(new MemoryStream(), 0, 0, null, image.FileName)).ToList();
+            ImageFileName = data.Images.Select(image => image.FileName).ToList();
             UserId = data.UserId;
             Price = data.Price;
         }
