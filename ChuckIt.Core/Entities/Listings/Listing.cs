@@ -36,8 +36,6 @@ namespace ChuckItApiV2.Core.Entities.Listings
         }
     }
 
-
-
     public class Images : BaseEntity<Guid>
     {
         public string FileName { get; set; } = string.Empty;
