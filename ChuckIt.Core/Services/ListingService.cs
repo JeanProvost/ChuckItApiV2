@@ -9,6 +9,7 @@ using ChuckItApiV2.Core.Entities.Listings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.WebSockets;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -19,7 +20,7 @@ namespace ChuckIt.Core.Services
         private readonly IListingRepository _listingRepository;
         private readonly IAmazonS3 _s3Client;
         private readonly string _bucketName;
-
+        
         public ListingService(IListingRepository listingRepository, IAmazonS3 amazonS3)
         {
             _listingRepository = listingRepository;
@@ -34,13 +35,19 @@ namespace ChuckIt.Core.Services
 
             foreach (var base64Image in request.ImageFileName)
             {
-                string fileExtension = GetImageExtension(base64Image);
-                var fileName = $"{Guid.NewGuid()}.{fileExtension}";
+                string fileExtention = GetImageExtension(base64Image);
+                var fileName = $"{Guid.NewGuid()}.{fileExtention}";
 
                 using (var imageStream = GetImageStream(base64Image))
                 {
                     var s3Url = await UploadImageToS3Async(imageStream, fileName);
-                    listing.Images.Add(new Images { FileName = s3Url });
+                    listing.Images.Add(new Images 
+                    { 
+                        Id = Guid.NewGuid(),
+                        FileName = s3Url,
+                        ListingId = listing.Id
+                    });
+                    //this is a comment
                 }
             }
 
@@ -91,11 +98,55 @@ namespace ChuckIt.Core.Services
             return await _listingRepository.GetAllListingsAsync();
         }
 
-        public async Task<ListingDto> GetListingDetailsAsync(Guid id)
+        public async Task<Listing> GetListingDetailsAsync(Guid id)
         {
             var listing = await _listingRepository.GetListingDetailsAsync(id);
 
             return listing;
+        }
+
+        public async Task<ListingDto> UpdateListingAsync(UpdateListingDto request)
+        {
+            var listing = await _listingRepository.GetListingDetailsAsync(request.Id);
+
+            listing.Title = request.Title;
+            listing.Description = request.Description;
+            listing.CategoryId = request.CategoryId;
+            listing.Price = request.Price;
+
+            if (request.ImageFileName.Any())
+            {
+                foreach (var base64Image in request.ImageFileName)
+                {
+                    string fileExtension = GetImageExtension(base64Image);
+                    var fileName = $"{Guid.NewGuid()}.{fileExtension}";
+
+                    using (var imageStream = GetImageStream(base64Image))
+                    {
+                        var s3Url = await UploadImageToS3Async(imageStream, fileName);
+                        listing.Images.Add(new Images 
+                        {
+                            Id = Guid.NewGuid(),
+                            FileName = s3Url,
+                            ListingId = listing.Id
+                        });
+                    }
+                }
+            }
+            var updatedListing = await _listingRepository.Update(listing);
+            return new ListingDto(updatedListing);
+        }
+
+        public async Task DeleteListingAsync(Guid id)
+        {
+            var listing = await _listingRepository.GetListingDetailsAsync(id);
+
+            if (listing == null)
+            {
+                throw new Exception($"Listing with ID {id} not found");
+            }
+
+            await _listingRepository.Delete(listing);
         }
     }
 }

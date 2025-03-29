@@ -1,4 +1,5 @@
 ﻿using ChuckIt.Core.Entities.Listings.Dtos;
+using ChuckItApiV2.Core.Entities.Listings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,9 @@ namespace ChuckIt.Core.Interfaces.IServices
     public interface IListingService
     {
         Task<List<ListingDto>> GetAllListingsAsync();
-        Task<ListingDto> GetListingDetailsAsync(Guid id);
+        Task<Listing> GetListingDetailsAsync(Guid id);
         Task<ListingDto> CreateListingAsync(CreateListingDto request);
+        Task<ListingDto> UpdateListingAsync(UpdateListingDto request);
+        Task DeleteListingAsync(Guid id);
     }
 }

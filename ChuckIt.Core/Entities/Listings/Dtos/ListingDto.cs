@@ -1,5 +1,8 @@
-﻿using ChuckItApiV2.Core.Entities.Category;
+﻿// Ignore Spelling: Dtos Dto
+using ChuckItApiV2.Core.Entities.Category;
 using ChuckItApiV2.Core.Entities.Listings;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Internal;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -17,6 +20,7 @@ namespace ChuckIt.Core.Entities.Listings.Dtos
         public int CategoryId { get; set; }
         public List<string> ImageFileName { get; set; } = new List<string>();
         public Guid UserId { get; set; }
+        public DateTime CreatedAt { get; set; }
 
         public ListingDto() { }
 
@@ -25,7 +29,7 @@ namespace ChuckIt.Core.Entities.Listings.Dtos
             Title = data.Title;
             CategoryId = data.CategoryId;
             Description = data.Description;
-            ImageFileName = data.Images.Select(img => img.FileName).ToList();
+            ImageFileName = data.Images.Select(image => image.FileName).ToList();
             UserId = data.UserId;
             Price = data.Price;
         }

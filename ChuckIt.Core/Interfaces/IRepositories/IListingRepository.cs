@@ -11,6 +11,6 @@ namespace ChuckIt.Core.Interfaces.IRepositories
     public interface IListingRepository : IBaseRepository<Listing>
     {
         Task<List<ListingDto>> GetAllListingsAsync();
-        Task<ListingDto> GetListingDetailsAsync(Guid id);
+        Task<Listing> GetListingDetailsAsync(Guid id);
     }
 }

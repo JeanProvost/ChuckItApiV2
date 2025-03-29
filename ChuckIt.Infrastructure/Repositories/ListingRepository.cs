@@ -2,6 +2,8 @@
 using ChuckIt.Core.Interfaces.IRepositories;
 using ChuckItApiV2.Core.Entities.Listings;
 using ChuckItApiV2.Infrastructure.Data;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -29,13 +31,15 @@ namespace ChuckIt.Infrastructure.Repositories
                     Description = l.Description,
                     Price = l.Price,
                     CategoryId = l.CategoryId,
-                    ImageFileName = l.Images.Select(i => i.FileName).ToList()
+                    UserId = l.UserId,
+                    ImageFileName = l.Images.Select(img => img.FileName).ToList(),
+                    CreatedAt = l.CreatedAt,
                 }).ToListAsync();
 
             return listings;
         }
 
-        public async Task<ListingDto> GetListingDetailsAsync(Guid id)
+        public async Task<Listing> GetListingDetailsAsync(Guid id)
         {
             var listing = await _context.Listings
                 .Include(l => l.Category)
@@ -48,7 +52,7 @@ namespace ChuckIt.Infrastructure.Repositories
                 throw new Exception($"Listing with ID {id} not found");
             }
 
-            return new ListingDto(listing);
+            return listing;
         }
     }
 }

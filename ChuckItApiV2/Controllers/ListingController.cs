@@ -1,8 +1,12 @@
-﻿using Amazon.CognitoIdentityProvider.Model;
+﻿// Ignore Spelling: auth
+
+using Amazon.CognitoIdentityProvider.Model;
 using ChuckIt.Core.Entities.Listings.Dtos;
 using ChuckIt.Core.Interfaces.IServices;
+using ChuckItApiV2.Validators.Listings;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace ChuckItApiV2.Controllers
 {
@@ -39,11 +43,59 @@ namespace ChuckItApiV2.Controllers
 
         [HttpPost]
         [Authorize(Roles = "User")]
-        public async Task<IActionResult> CreateListing([FromBody] CreateListingDto request)
+        [Consumes("multipart/form-data")]
+        public async Task<IActionResult> CreateListing([FromForm] CreateListingDto request)
         {
+           // var validator = new CreateListingValidator
             var listing = await _listingService.CreateListingAsync(request);
 
             return Ok(listing);
+        }
+
+        [HttpPut("{id}")]
+        [Authorize(Roles = "User")]
+
+        public async Task<IActionResult> UpdateListing(Guid id, [FromBody] UpdateListingDto request)
+        {
+            if (id != request.Id)
+            {
+                return BadRequest();
+            }
+
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (userId == null)
+            {
+                return Unauthorized();
+            }
+
+            try
+            {
+                var listing = await _listingService.UpdateListingAsync(request);
+                return Ok(listing);
+            }
+            catch (Exception ex)
+            {
+                return NotFound(ex.Message);
+            }
+        }
+
+        public async Task<IActionResult> DeleteListing(Guid id)
+        {
+            try
+            {
+                var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                if (userId == null)
+                {
+                    return Unauthorized();
+                }
+
+                await _listingService.DeleteListingAsync(id);
+                return Ok("Listing successfully deleted");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

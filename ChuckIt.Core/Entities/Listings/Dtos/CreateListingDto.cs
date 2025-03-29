@@ -1,4 +1,8 @@
-﻿using System;
+﻿// Ignore Spelling: Dtos Dto
+
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Internal;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,5 +17,17 @@ namespace ChuckIt.Core.Entities.Listings.Dtos
         public int CategoryId { get; set; }
         public decimal Price { get; set; }
         public List<string> ImageFileName { get; set; } = new List<string>();
+
+        public CreateListingDto() { }
+
+        public CreateListingDto(ListingDto data)
+        {
+            Title = data.Title;
+            CategoryId = data.CategoryId;
+            Description = data.Description;
+            ImageFileName = data.ImageFileName;
+            Price = data.Price;
+        }
     }
+
 }
