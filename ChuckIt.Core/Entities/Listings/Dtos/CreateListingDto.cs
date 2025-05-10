@@ -16,7 +16,7 @@ namespace ChuckIt.Core.Entities.Listings.Dtos
         public string Description { get; set; } = string.Empty;
         public int CategoryId { get; set; }
         public decimal Price { get; set; }
-        public List<string> ImageFileName { get; set; } = new List<string>();
+        public List<IFormFile> ImageFileName { get; set; } = new List<IFormFile>();
 
         public CreateListingDto() { }
 
@@ -25,7 +25,7 @@ namespace ChuckIt.Core.Entities.Listings.Dtos
             Title = data.Title;
             CategoryId = data.CategoryId;
             Description = data.Description;
-            ImageFileName = data.ImageFileName;
+            //ImageFileName = data.ImageFileName;
             Price = data.Price;
         }
     }

@@ -44,6 +44,4 @@ namespace ChuckItApiV2.Core.Entities.Listings
         public Guid ListingId { get; set; }
         public Listing Listing { get; set; } = new Listing();
     }
-
-
 }

@@ -31,23 +31,27 @@ namespace ChuckIt.Core.Services
         public async Task<ListingDto> CreateListingAsync(CreateListingDto request)
         {
             var listing = new Listing(request);
-            listing.Images = new List<Images>();
 
-            foreach (var base64Image in request.ImageFileName)
+            if (request.ImageFileName != null && request.ImageFileName.Any())
             {
-                string fileExtention = GetImageExtension(base64Image);
-                var fileName = $"{Guid.NewGuid()}.{fileExtention}";
-
-                using (var imageStream = GetImageStream(base64Image))
+                foreach (var formFile in request.ImageFileName)
                 {
-                    var s3Url = await UploadImageToS3Async(imageStream, fileName);
-                    listing.Images.Add(new Images 
-                    { 
-                        Id = Guid.NewGuid(),
-                        FileName = s3Url,
-                        ListingId = listing.Id
-                    });
-                    //this is a comment
+                    if (formFile.Length > 0)
+                    {
+                        var fileExtension = Path.GetExtension(formFile.FileName).TrimStart('.');
+                        var fileName = $"{Guid.NewGuid()}.{fileExtension}";
+
+                        using (var stream = formFile.OpenReadStream())
+                        {
+                            var s3Url = await UploadImageToS3Async(stream, fileName);
+                            listing.Images.Add(new Images
+                            {
+                                Id = Guid.NewGuid(),
+                                FileName = s3Url,
+                                ListingId = listing.Id
+                            });
+                        }
+                    }
                 }
             }
 
