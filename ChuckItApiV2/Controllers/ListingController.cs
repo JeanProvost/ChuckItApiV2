@@ -55,12 +55,9 @@ namespace ChuckItApiV2.Controllers
         [HttpPut("{id}")]
         [Authorize(Roles = "User")]
 
-        public async Task<IActionResult> UpdateListing(Guid id, [FromBody] UpdateListingDto request)
+        public async Task<IActionResult> UpdateListing([FromRoute] string id, [FromBody] UpdateListingDto request)
         {
-            if (id != request.Id)
-            {
-                return BadRequest();
-            }
+            var listingId = Guid.Parse(id);
 
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (userId == null)
@@ -70,7 +67,7 @@ namespace ChuckItApiV2.Controllers
 
             try
             {
-                var listing = await _listingService.UpdateListingAsync(request);
+                var listing = await _listingService.UpdateListingAsync(request, listingId);
                 return Ok(listing);
             }
             catch (Exception ex)
@@ -79,7 +76,9 @@ namespace ChuckItApiV2.Controllers
             }
         }
 
-        public async Task<IActionResult> DeleteListing(Guid id)
+        [HttpDelete("{id}")]
+        [Authorize(Roles = "User")]
+        public async Task<IActionResult> DeleteListing([FromRoute] string id)
         {
             try
             {
@@ -88,8 +87,9 @@ namespace ChuckItApiV2.Controllers
                 {
                     return Unauthorized();
                 }
+                var listingId = Guid.Parse(id);
 
-                await _listingService.DeleteListingAsync(id);
+                await _listingService.DeleteListingAsync(listingId);
                 return Ok("Listing successfully deleted");
             }
             catch (Exception ex)
