@@ -109,26 +109,25 @@ namespace ChuckIt.Core.Services
             return listing;
         }
 
-        public async Task<ListingDto> UpdateListingAsync(UpdateListingDto request)
+        public async Task<ListingDto> UpdateListingAsync(UpdateListingDto request, Guid id)
         {
-            var listing = await _listingRepository.GetListingDetailsAsync(request.Id);
+            var listing = await _listingRepository.GetListingDetailsAsync(id);
 
-            listing.Title = request.Title;
-            listing.Description = request.Description;
+            listing.Title = request.Title ?? listing.Title;
             listing.CategoryId = request.CategoryId;
             listing.Price = request.Price;
 
-            if (request.ImageFileName.Any())
+            if (request.ImageFileName != null && request.ImageFileName.Any())
             {
-                foreach (var base64Image in request.ImageFileName)
+                foreach (var formFile in request.ImageFileName)
                 {
-                    string fileExtension = GetImageExtension(base64Image);
+                    var fileExtension = Path.GetExtension(formFile.FileName).TrimStart('.');
                     var fileName = $"{Guid.NewGuid()}.{fileExtension}";
 
-                    using (var imageStream = GetImageStream(base64Image))
+                    using (var stream = formFile.OpenReadStream())
                     {
-                        var s3Url = await UploadImageToS3Async(imageStream, fileName);
-                        listing.Images.Add(new Images 
+                        var s3Url = await UploadImageToS3Async(stream, fileName);
+                        listing.Images.Add(new Images
                         {
                             Id = Guid.NewGuid(),
                             FileName = s3Url,
@@ -137,8 +136,9 @@ namespace ChuckIt.Core.Services
                     }
                 }
             }
-            var updatedListing = await _listingRepository.Update(listing);
-            return new ListingDto(updatedListing);
+            await _listingRepository.Update(listing);
+
+            return new ListingDto(listing);
         }
 
         public async Task DeleteListingAsync(Guid id)
