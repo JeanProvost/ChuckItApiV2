@@ -12,7 +12,7 @@ namespace ChuckIt.Core.Services
     {
         private readonly IMessageRepository _messageRepository;
 
-        public MessageRepository(IMessageRepository messageRepository)
+        public MessageService(IMessageRepository messageRepository)
         {
             _messageRepository = messageRepository;
         }
