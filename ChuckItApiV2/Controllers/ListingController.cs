@@ -46,7 +46,7 @@ namespace ChuckItApiV2.Controllers
         [Consumes("multipart/form-data")]
         public async Task<IActionResult> CreateListing([FromForm] CreateListingDto request)
         {
-            //var validator = new CreateListingValidator
+            var validator = new CreateListingValidator();
             var listing = await _listingService.CreateListingAsync(request);
 
             return Ok(listing);
